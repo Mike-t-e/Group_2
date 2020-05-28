@@ -13,3 +13,7 @@ sqlite - db
 3. place the java files in sqlite/java/connect/net/sqlitetutorial
 4. change directory to sqlite/db/java/connect
 5. execute this command "javac net/sqlitetutorial/Connect.java && java -cp .:sqlite-jdbc-3.27.2.1.jar net.sqlitetutorial.Connect". this will compile and run the program, if you're using a windows computer you will need to alter the command slightly for it to work properly.
+
+OBS!
+You can also use the sqlite.zip file to unpack a finished repository and skip directly to step 5 above
+0BS!
