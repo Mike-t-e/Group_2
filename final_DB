@@ -1,0 +1,51 @@
+.header ON
+.mode column
+PRAGMA foreign_keys = ON;
+create table Session (SessionID int not null primary key, Type string, Location string, EmployeeID int, Positions int, foreign key (EmployeeID) references Employee(EmployeeID));
+
+create table Schedule (ScheduleID int not null primary key, LocationID int, EmployeeID int, foreign key (LocationID) references Location(LocationID), foreign key (EmployeeID) references Employee(EmployeeID));
+
+create table Location (LocationID int not null primary key, Address string, Name string, Capacity int);
+
+create table Member (MemberID int not null primary key, firstName string, lastName string, phoneNr int, eMail string, Address string, BillingID int, PaymentID int, membershipTier string, foreign key (PaymentID) references Purchase(PaymentID));
+
+create table Employee(EmployeeID int not null primary key, firstName string, lastName string, location string, Address string, eMail string, phoneNr int, salary int);
+
+create table activeSession (SessionID int not null primary key, MemberID int, foreign key (MemberID) references Member(MemberID), foreign key (SessionID) references Session(SessionID));
+
+create table Attendance (SessionID int not null primary key, attendees int, foreign key (SessionID) references Session(SessionID));
+
+create table MemberInfo (MemberID int not null primary key, SSN int, foreign key (MemberID) references Member(MemberID));
+
+create table employeeInfo (EmployeeID int not null primary key, SSN int, foreign key (EmployeeID) references Employee(EmployeeID));
+
+create table Customer (CustomerID int not null primary key, firstName string, lastName string, PaymentID int, BillingID string, foreign key (PaymentID) references Purchase(PaymentID));
+
+create table Membership (MemberID int not null primary key, TierID int, period int, foreign key (MemberID) references Member(MemberID), foreign key (TierID) references Tier(TierID));
+
+create table BillingID (BillingID int not null primary key, CustomerID int, invoiceAddress string, foreign key (CustomerID) references Customer(CustomerID));
+
+create table Tier (TierID int not null primary key, Location string);
+
+create table Consumable (ConsumableID int not null primary key, price int, name string);
+
+create table Sale (saleNr int not null primary key, ConsumableID int, location string, timeStamp int, PaymentID int, foreign key (ConsumableID) references Consumable(ConsumableID), foreign key (PaymentID) references Purchase(PaymentID));
+
+create table Online (saleNr int not null primary key, ConsumableID int, device string, timeStamp int, PaymentID int, foreign key (ConsumableID) references Consumable(ConsumableID), foreign key (PaymentID) references Purchase(PaymentID));
+
+create table inStore (saleNr int not null primary key, ConsumableID int, location string, timeStamp int, PaymentID int, foreign key (ConsumableID) references Consumable(ConsumableID), foreign key (PaymentID) references Purchase(PaymentID));
+
+create table Purchase (PaymentID int not null primary key, Type string, Amount double, BillingID int, foreign key (BillingID) references BillingInfo(BillingID));
+
+create table MemberPurchase (PaymentID int not null primary key, Type string, Amount double, BillingID int, MemberID int, foreign key (BillingID) references BillingInfo(BillingID) foreign key(MemberID) references Member(MemberID));
+
+create table ProductPurchase (PaymentID int not null primary key, Type string, Amount double, BillingID int, ConsumableID int,  foreign key (BillingID) references BillingInfo(BillingID) foreign key (ConsumableID) references Consumable(ConsumableID));
+
+insert into tier values (1, "Gold");
+insert into tier values (2, "Silver");
+insert into tier values (3, "Bronze");
+
+____   ____      ___  ___  ___           ___
+|    |  |  |\  ||    |    |        /\   |   |
+|--  |  |  | \ ||---  ---  ---    /__\  |---
+|    |  |  |  \||___  ___| ___|	 /    \ |___|
